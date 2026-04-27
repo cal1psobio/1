@@ -61,23 +61,25 @@
             <button class="join-btn">Follow</button>
         </a>
 
-        <div class="widget player-widget">
-            <div class="player-info">
-                <div class="player-title"></div>
-                
-                <div class="player-controls">
-                    <span id="current-time">00:00</span>
-                    <input type="range" id="progress-bar" value="0" max="100">
-                    <span id="duration">00:00</span>
-                    <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()"></i>
-                </div>
+        <div class="widget player-mini">
+    <div class="player-row">
+        <span id="current-time">00:00</span>
+        
+        <div class="progress-wrapper">
+            <input type="range" id="progress-bar" value="0" max="100">
+        </div>
+        
+        <span id="duration">00:00</span>
 
-                <div class="volume-controls">
-                    <i class="fa-solid fa-volume-high"></i>
-                    <input type="range" id="volume-bar" value="30" max="100">
-                </div>
+        <div class="player-actions">
+            <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()"></i>
+            <div class="volume-minimal">
+                <i class="fa-solid fa-volume-low"></i>
+                <input type="range" id="volume-bar" value="30" max="100">
             </div>
         </div>
+    </div>
+</div>
 
     </div>
 
