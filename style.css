@@ -50,6 +50,12 @@ body {
     
     /* Плавность для 3D и для появления */
     transition: transform 0.6s ease-out, opacity 0.8s ease, visibility 0.8s, filter 0.8s;
+    /* Добавляем мягкое свечение и четкую границу */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    
+    /* Чтобы грани были еще четче */
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Классы для скрытия/показа */
