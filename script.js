@@ -69,7 +69,7 @@ function formatTime(time) {
 const card = document.querySelector('.glass-card');
 
 // Сила наклона (чем больше число, тем сильнее гнется)
-const motionQuantity = 15; 
+const motionQuantity = 8; 
 
 card.addEventListener('mousemove', (e) => {
     // Получаем размеры и положение карточки
