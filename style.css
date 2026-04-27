@@ -8,21 +8,19 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    /* ВАЖНО для 3D эффекта: задаем перспективу */
-    perspective: 1000px; 
+    perspective: 1000px;
 }
 
 #bg-visual {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover; z-index: -1;
-    transition: filter 1s ease; /* Плавное изменение размытия */
+    transition: filter 1s ease;
 }
 
-/* Стартовый экран (Надпись) */
 #start-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     display: flex; justify-content: center; align-items: center;
-    background: rgba(0,0,0,0.8); /* Изначально чуть темнее */
+    background: rgba(0,0,0,0.8);
     z-index: 100; cursor: pointer;
     transition: opacity 0.8s ease, visibility 0.8s;
 }
@@ -35,9 +33,7 @@ body {
 
 @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-/* Стеклянная карточка (с НОВЫМИ 3D стилями) */
 .glass-card {
-   /* ПРОЗРАЧНОСТЬ И СТИЛЬ (оставляем как есть) */
     background: rgba(255, 255, 255, 0.01) !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important; 
     backdrop-filter: blur(10px) !important;
@@ -51,81 +47,33 @@ body {
     flex-direction: column; 
     align-items: center;
     box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-
-    /* 3D И ЧЕТКОСТЬ */
     transform-style: preserve-3d !important;
     will-change: transform;
     -webkit-font-smoothing: subpixel-antialiased !important;
     backface-visibility: hidden;
-
-    /* ПЛАВНОСТЬ (cubic-bezier делает движение более "резиновым" и приятным) */
     transition: transform 0.1s ease-out, opacity 0.8s ease !important;
-    
-    /* ИЗНАЧАЛЬНОЕ ПОЛОЖЕНИЕ (изначально плоская, чтобы JS потом наклонил) */
     transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
 }
 
-/* Остальные стили из предыдущего ответа (без изменений) */
-.top-bar { position: absolute; top: 18px; right: 20px; display: flex; gap: 8px; }
+.glass-card.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.top-bar { position: absolute; top: 18px; right: 20px; display: flex; gap: 8px; z-index: 20; }
+
 .stat-badge {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
-    padding: 6px 12px; border-radius: 12px; font-size: 11px; color: #999;
-}
-.profile-header { text-align: center; margin-top: 30px; margin-bottom: 25px; }
-.main-nick { font-size: 32px; font-weight: 600; letter-spacing: 1px; }
-.red-dot { color: #ff3333; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
-.location { font-size: 12px; color: #777; margin: 10px 0 20px; }
-.social-icons { display: flex; gap: 20px; justify-content: center; }
-.social-icons a { color: white; font-size: 22px; text-decoration: none; opacity: 0.6; transition: 0.3s; }
-.social-icons a:hover { opacity: 1; transform: scale(1.1); }
-.widget {
-    background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
-    width: 100%; border-radius: 16px; padding: 16px; margin-bottom: 12px;
-    display: flex; justify-content: space-between; align-items: center;
-    color: white; text-decoration: none; transition: 0.3s;
-}
-.widget:hover { background: rgba(255, 255, 255, 0.05); }
-.widget-info { display: flex; align-items: center; gap: 14px; }
-.widget-avatar { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
-.widget-avatar.circle { border-radius: 50%; }
-.widget-title { font-size: 15px; font-weight: 500; }
-.widget-subtitle { font-size: 12px; color: #888; margin-top: 4px; }
-.widget-badge { background: rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 12px; font-size: 11px; color: #ccc; }
-.twitch-icon { color: #a970ff; font-size: 11px; margin-left: 5px; }
-.status-online { display: inline-block; width: 8px; height: 8px; background: #33ff33; border-radius: 50%; margin-right: 5px; }
-.join-btn {
-    background: transparent; border: 1px solid rgba(255,255,255,0.15);
-    color: #ccc; padding: 7px 16px; border-radius: 12px; font-size: 11px; cursor: pointer;
-}
-.widget:hover .join-btn { background: white; color: black; }
-
-/* Плеер (обновленный) */
-.player-widget { flex-direction: column; padding: 15px 20px; }
-.player-controls { display: flex; align-items: center; gap: 12px; width: 100%; margin: 10px 0; font-size: 11px; color: #666; }
-#progress-bar { flex-grow: 1; height: 3px; accent-color: white; cursor: pointer; }
-#play-pause-btn { color: white; cursor: pointer; font-size: 16px; transition: 0.3s;}
-#play-pause-btn:hover { transform: scale(1.1); color: #fff;}
-
-/* Стили громкости */
-.volume-controls {
-    display: flex; align-items: center; gap: 8px; width: 100%;
-    justify-content: center; margin-top: 5px; font-size: 10px; color: #555;
-}
-#volume-bar {
-    width: 60px; height: 2px; accent-color: #888; cursor: pointer; opacity: 0.6; transition: 0.3s;
-}
-#volume-bar:hover { opacity: 1; accent-color: white;}
-/* Настройка позиции бейджа для подсказки */
-.stat-badge {
-    position: relative;
-    cursor: help; /* Меняет курсор при наведении */
+    background: rgba(255,255,255,0.06); 
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px 12px; border-radius: 12px; 
+    font-size: 11px; color: #999;
+    position: relative; cursor: help;
 }
 
-/* Создаем саму подсказку через псевдоэлемент */
 .stat-badge::after {
-    content: attr(data-tooltip); /* Берет текст из HTML */
+    content: attr(data-tooltip);
     position: absolute;
-    bottom: -35px; /* Появляется под кнопкой */
+    bottom: -35px;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     background: rgba(0, 0, 0, 0.8);
@@ -142,9 +90,58 @@ body {
     z-index: 100;
 }
 
-/* Показываем при наведении */
 .stat-badge:hover::after {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
 }
+
+.profile-header { text-align: center; margin-top: 30px; margin-bottom: 25px; }
+.main-nick { font-size: 32px; font-weight: 600; letter-spacing: 1px; }
+.red-dot { color: #ff3333; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+.location { font-size: 12px; color: #777; margin: 10px 0 20px; }
+
+.social-icons { display: flex; gap: 20px; justify-content: center; position: relative; z-index: 30; }
+.social-icons a { color: white; font-size: 22px; text-decoration: none; opacity: 0.6; transition: 0.3s; cursor: pointer; }
+.social-icons a:hover { opacity: 1; transform: scale(1.1); }
+
+.widget {
+    background: rgba(255, 255, 255, 0.02); 
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    width: 100%; border-radius: 16px; 
+    padding: 16px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: white; text-decoration: none; transition: 0.3s;
+}
+.widget:hover { background: rgba(255, 255, 255, 0.05); }
+
+.widget-info { display: flex; align-items: center; gap: 14px; }
+.widget-avatar { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
+.widget-avatar.circle { border-radius: 50%; }
+
+.widget-title { font-size: 15px; font-weight: 500; }
+.widget-subtitle { font-size: 12px; color: #888; margin-top: 4px; }
+.widget-badge { background: rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 12px; font-size: 11px; color: #ccc; }
+.twitch-icon { color: #a970ff; font-size: 11px; margin-left: 5px; }
+.status-online { display: inline-block; width: 8px; height: 8px; background: #33ff33; border-radius: 50%; margin-right: 5px; }
+
+.join-btn {
+    background: transparent; border: 1px solid rgba(255,255,255,0.15);
+    color: #ccc; padding: 7px 16px; border-radius: 12px; font-size: 11px; cursor: pointer;
+}
+.widget:hover .join-btn { background: white; color: black; }
+
+.player-widget { flex-direction: column; padding: 15px 20px; }
+.player-controls { display: flex; align-items: center; gap: 12px; width: 100%; margin: 10px 0; font-size: 11px; color: #666; }
+#progress-bar { flex-grow: 1; height: 3px; accent-color: white; cursor: pointer; }
+#play-pause-btn { color: white; cursor: pointer; font-size: 16px; transition: 0.3s;}
+#play-pause-btn:hover { transform: scale(1.1); color: #fff;}
+
+.volume-controls {
+    display: flex; align-items: center; gap: 8px; width: 100%;
+    justify-content: center; margin-top: 5px; font-size: 10px; color: #555;
+}
+#volume-bar {
+    width: 60px; height: 2px; accent-color: #888; cursor: pointer; opacity: 0.6; transition: 0.3s;
+}
+#volume-bar:hover { opacity: 1; accent-color: white;}
