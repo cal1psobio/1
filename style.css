@@ -56,6 +56,11 @@ body {
     
     /* Чтобы грани были еще четче */
     border: 1px solid rgba(255, 255, 255, 0.1);
+    will-change: transform, opacity;
+    backface-visibility: hidden; /* Убирает артефакты при повороте */
+    -webkit-font-smoothing: antialiased; /* Делает текст четче */
+    transform-style: preserve-3d;
+    transform: translateZ(0); /* Секретный хак для четкости */
 }
 
 /* Классы для скрытия/показа */
