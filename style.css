@@ -51,8 +51,30 @@ body {
     will-change: transform;
     -webkit-font-smoothing: subpixel-antialiased !important;
     backface-visibility: hidden;
-    transition: transform 0.1s ease-out, opacity 0.8s ease !important;
+    transition: transform 0.3s ease-out, opacity 0.8s ease !important;
     transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+}
+
+.widget-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    
+    /* Тонкая светлая обводка */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Мягкое свечение */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Аватар Твича (круглый) */
+.widget-avatar.circle {
+    border-radius: 50%;
+    
+    /* Фиолетовая обводка в стиле Твича */
+    border: 2px solid rgba(169, 112, 255, 0.5);
+    /* Фиолетовое свечение */
+    box-shadow: 0 0 15px rgba(169, 112, 255, 0.3);
 }
 
 .glass-card.hidden {
