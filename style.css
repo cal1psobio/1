@@ -34,46 +34,51 @@ body {
 .box-container.hidden { opacity: 0; visibility: hidden; }
 .box-container.visible { opacity: 1; visibility: visible; }
 
-/* БЕГУЩАЯ СТРОЧКА ПО ГРАНЯМ */
-.glass-card::before {
-    content: '';
-    position: absolute;
-    inset: -1.5px;
-    background: linear-gradient(90deg, transparent, #fff, transparent);
-    background-size: 200% 100%;
-    border-radius: 25px;
-    z-index: -1;
-    animation: moveLine 3s linear infinite;
-}
-
-@keyframes moveLine {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
 .glass-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 24px;
+    /* Делаем фон очень прозрачным, но с сильным размытием */
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    
+    /* Углы как на картинке — очень мягкие */
+    border-radius: 30px; 
     padding: 25px;
     width: 100%;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    
+    /* ТОНКАЯ СВЕТЛАЯ КАЕМКА (ГРАНЬ) */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    
+    /* ТЕНИ ДЛЯ ОБЪЕМА КАРТОЧКИ */
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.5),                /* Основная тень снизу */
+        inset 0 0 20px rgba(255, 255, 255, 0.02);     /* Мягкое свечение внутри */
+
+    /* Убираем все лишние анимации, оставляем только 3D */
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
 }
 
-/* Виджеты и Плеер */
-.widget {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 16px;
-    margin-bottom: 12px;
-    padding: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
+/* Удаляем старые эффекты ::before, если они были */
+.glass-card::before {
+    display: none;
 }
+
+/* ВИДЖЕТЫ (как на картинке — серые с тонкой обводкой) */
+.widget {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    padding: 15px;
+    transition: 0.3s ease;
+}
+
+.widget:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
 
 .player-content-wrapper { display: flex; align-items: center; gap: 10px; width: 100%; }
 .track-name { font-size: 11px; font-weight: 600; white-space: nowrap; }
