@@ -1,0 +1,299 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+    background-color: #000;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1200px;
+}
+
+#bg-visual {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: -1;
+    transition: filter 1s ease;
+}
+
+#start-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    background: rgba(0,0,0,0.8);
+    z-index: 100; cursor: pointer;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+#start-screen p {
+    letter-spacing: 5px; text-transform: uppercase; color: #fff; font-size: 20px;
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 15px rgba(255,255,255,0.7);
+}
+
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+/* ══════════════════════════════════
+   GLASS CARD
+   ══════════════════════════════════ */
+.glass-card {
+    /* CSS vars для граней — керуються через JS */
+    --edge-left-opacity: 0;
+    --edge-right-opacity: 0;
+
+    background: rgba(18, 18, 22, 0.55);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+
+    box-shadow:
+        /* Зовнішній bloom */
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 0 20px 4px rgba(255, 255, 255, 0.04),
+        0 0 60px 10px rgba(255, 255, 255, 0.015),
+        /* Глибока тінь */
+        0 25px 70px rgba(0, 0, 0, 0.8),
+        /* Внутрішній відблиск зверху */
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        /* Внутрішнє затемнення знизу */
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+    backdrop-filter: blur(8px) saturate(1.2);
+    -webkit-backdrop-filter: blur(8px) saturate(1.2);
+
+    width: 90%; max-width: 420px;
+    border-radius: 24px; padding: 25px;
+    position: relative;
+    isolation: isolate;
+    display: flex; flex-direction: column; align-items: center;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    transition: transform 0.1s ease-out,
+                opacity 0.8s ease, visibility 0.8s, filter 0.8s;
+}
+
+/* ── ЛІВА ГРАНЬ СКЛА ── */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 8px; bottom: 8px;
+    left: -5px;
+    width: 8px;
+    border-radius: 6px 0 0 6px;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.0)  0%,
+        rgba(255,255,255,0.6) 25%,
+        rgba(255,255,255,0.9) 50%,
+        rgba(255,255,255,0.6) 75%,
+        rgba(255,255,255,0.0) 100%
+    );
+    opacity: var(--edge-left-opacity);
+    transition: opacity 0.08s ease-out;
+    pointer-events: none;
+    filter: blur(2px);
+    z-index: 10;
+}
+
+/* ── ПРАВА ГРАНЬ СКЛА ── */
+.glass-card::after {
+    content: '';
+    position: absolute;
+    top: 8px; bottom: 8px;
+    right: -5px;
+    width: 8px;
+    border-radius: 0 6px 6px 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.0)  0%,
+        rgba(255,255,255,0.6) 25%,
+        rgba(255,255,255,0.9) 50%,
+        rgba(255,255,255,0.6) 75%,
+        rgba(255,255,255,0.0) 100%
+    );
+    opacity: var(--edge-right-opacity);
+    transition: opacity 0.08s ease-out;
+    pointer-events: none;
+    filter: blur(2px);
+    z-index: 10;
+}
+
+/* ── НИЖНЯ ГРАНЬ СКЛА ── */
+.glass-card-bottom-edge {
+    position: absolute;
+    left: 8px; right: 8px;
+    bottom: -6px;
+    height: 10px;
+    border-radius: 0 0 8px 8px;
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.0)  0%,
+        rgba(255,255,255,0.5) 30%,
+        rgba(255,255,255,0.8) 50%,
+        rgba(255,255,255,0.5) 70%,
+        rgba(255,255,255,0.0) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.08s ease-out;
+    pointer-events: none;
+    filter: blur(2.5px);
+    z-index: 10;
+}
+
+/* ── Верхній відблиск (статичний — завжди видно) ── */
+.glass-card-top-shine {
+    position: absolute;
+    top: 0; left: 15%; right: 15%;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,0.6) 30%,
+        rgba(255,255,255,0.9) 50%,
+        rgba(255,255,255,0.6) 70%,
+        transparent
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.glass-card.hidden {
+    opacity: 0;
+    visibility: hidden;
+    filter: blur(10px);
+    transform: translateY(40px);
+}
+
+.glass-card.visible {
+    opacity: 1;
+    visibility: visible;
+    filter: blur(0);
+}
+
+/* ── Top bar ── */
+.top-bar { position: absolute; top: 18px; right: 20px; display: flex; gap: 8px; }
+.stat-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px 12px; border-radius: 12px; font-size: 11px; color: #999;
+}
+
+/* ── Profile ── */
+.profile-header { text-align: center; margin-top: 30px; margin-bottom: 25px; }
+.main-nick { font-size: 32px; font-weight: 600; letter-spacing: 1px; }
+.red-dot { color: #ff3333; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+.location { font-size: 12px; color: #777; margin: 10px 0 20px; }
+.social-icons { display: flex; gap: 20px; justify-content: center; }
+.social-icons a { color: white; font-size: 22px; text-decoration: none; opacity: 0.6; transition: 0.3s; }
+.social-icons a:hover { opacity: 1; transform: scale(1.1); }
+
+/* ── Widgets ── */
+.widget {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    width: 100%; border-radius: 16px; padding: 16px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: white; text-decoration: none; transition: 0.3s;
+}
+.widget:hover { background: rgba(255, 255, 255, 0.05); }
+
+.profile-widget {
+    border: 1px solid transparent;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.11),
+        0 0 14px 2px rgba(255,255,255,0.055),
+        0 0 35px 6px rgba(255,255,255,0.02);
+    transition: box-shadow 0.4s, background 0.3s;
+}
+.profile-widget:hover {
+    box-shadow:
+        0 0 0 1px rgba(255,60,60,0.28),
+        0 0 16px 3px rgba(255,50,50,0.16),
+        0 0 45px 8px rgba(255,50,50,0.06),
+        0 0 90px 18px rgba(255,50,50,0.02);
+    background: rgba(255,40,40,0.04);
+}
+
+.widget-info { display: flex; align-items: center; gap: 14px; }
+.widget-avatar { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
+.widget-avatar.circle { border-radius: 50%; }
+.widget-title { font-size: 15px; font-weight: 500; }
+.widget-subtitle { font-size: 12px; color: #888; margin-top: 4px; }
+
+.widget-badge {
+    background: rgba(255,200,50,0.08);
+    border: 1px solid rgba(255,190,40,0.2);
+    padding: 6px 12px; border-radius: 12px; font-size: 11px;
+    color: #f0b429;
+    box-shadow: 0 0 10px rgba(255,185,30,0.18), 0 0 25px rgba(255,185,30,0.06);
+}
+.widget-badge i { color: #ffc82e; filter: drop-shadow(0 0 5px rgba(255,200,40,0.7)); }
+
+.link-widget {
+    border: 1px solid transparent;
+    box-shadow:
+        0 0 0 1px rgba(169,112,255,0.22),
+        0 0 14px 2px rgba(169,112,255,0.1),
+        0 0 35px 6px rgba(169,112,255,0.04);
+    transition: box-shadow 0.4s, background 0.3s;
+}
+.link-widget:hover {
+    box-shadow:
+        0 0 0 1px rgba(169,112,255,0.48),
+        0 0 18px 4px rgba(169,112,255,0.25),
+        0 0 50px 10px rgba(169,112,255,0.09),
+        0 0 100px 22px rgba(169,112,255,0.03);
+    background: rgba(169,112,255,0.06);
+}
+
+.twitch-icon { color: #a970ff; font-size: 11px; margin-left: 5px; }
+.status-online {
+    display: inline-block; width: 8px; height: 8px;
+    background: #33ff33; border-radius: 50%; margin-right: 5px;
+    box-shadow: 0 0 6px rgba(51,255,51,0.6);
+}
+.join-btn {
+    background: transparent;
+    border: 1px solid rgba(169,112,255,0.3);
+    color: #a970ff; padding: 7px 16px; border-radius: 12px; font-size: 11px; cursor: pointer;
+    transition: 0.3s;
+}
+.link-widget:hover .join-btn {
+    background: #a970ff; color: white; border-color: #a970ff;
+    box-shadow: 0 0 12px rgba(169,112,255,0.5);
+}
+
+/* ── Player ── */
+.player-widget { padding: 12px 18px; flex-direction: row; align-items: center; gap: 0; }
+.player-info { display: flex; align-items: center; gap: 10px; width: 100%; }
+
+#play-pause-btn {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: white;
+    cursor: pointer; transition: 0.25s; flex-shrink: 0;
+}
+#play-pause-btn:hover {
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 10px rgba(255,255,255,0.15);
+    transform: scale(1.08);
+}
+
+.player-controls {
+    display: flex; align-items: center;
+    gap: 8px; flex: 1;
+    font-size: 10px; color: #555; margin: 0;
+}
+#progress-bar { flex-grow: 1; height: 3px; accent-color: white; cursor: pointer; }
+
+.volume-controls {
+    display: flex; align-items: center;
+    gap: 6px; font-size: 10px; color: #555; flex-shrink: 0;
+}
+#volume-bar { width: 50px; height: 2px; accent-color: #888; cursor: pointer; opacity: 0.6; transition: 0.3s; }
+#volume-bar:hover { opacity: 1; accent-color: white; }
