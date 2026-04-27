@@ -64,3 +64,46 @@ function formatTime(time) {
     let sec = Math.floor(time % 60);
     return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 }
+// --- ЭФФЕКТ ИНТЕРАКТИВНОГО 3D НАКЛОНА ---
+
+const card = document.querySelector('.glass-card');
+
+// Сила наклона (чем больше число, тем сильнее гнется)
+const motionQuantity = 15; 
+
+card.addEventListener('mousemove', (e) => {
+    // Получаем размеры и положение карточки
+    const cardRect = card.getBoundingClientRect();
+    const cardWidth = cardRect.width;
+    const cardHeight = cardRect.height;
+    
+    // Находим центр карточки
+    const centerX = cardRect.left + cardWidth / 2;
+    const centerY = cardRect.top + cardHeight / 2;
+    
+    // Получаем положение мышки относительно центра
+    const mouseX = e.clientX - centerX;
+    const mouseY = e.clientY - centerY;
+    
+    // Рассчитываем углы поворота
+    // rotateX зависит от движения по вертикали (mouseY), rotateY - по горизонтали (mouseX)
+    // Мы делим на ширину/высоту, чтобы получить значение от -1 до 1, и умножаем на силу наклона
+    const rotateX = (+1) * (mouseY / (cardHeight / 2)) * motionQuantity;
+    const rotateY = (-1) * (mouseX / (cardWidth / 2)) * motionQuantity;
+    
+    /* Применяем трансформацию динамически. 
+       translateZ(10px) добавляет еще больше глубины. */
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+});
+
+// Возвращаем карточку в исходное состояние, когда мышка уходит
+card.addEventListener('mouseleave', () => {
+    // Добавляем transition чуть медленнее, чтобы она плавно вернулась
+    card.style.transition = 'transform 0.5s ease-out';
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
+});
+
+// Убираем медленный transition, когда мышка снова заходит
+card.addEventListener('mouseenter', () => {
+    card.style.transition = 'transform 0.1s ease-out';
+});
