@@ -22,48 +22,97 @@ function showCard() {
     music.play();
 }
 
-// Плеер (старая логика Play/Pause)
+// --- ОБНОВЛЕННАЯ ЛОГИКА ПЛЕЕРА ---
+
+const music = document.getElementById('bg-music');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const progressBar = document.getElementById('progress-bar');
+const volumeBar = document.getElementById('volume-bar');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+
+// Кнопки вперед/назад (для эффекта наведения)
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+// Настройка старта звука
+music.volume = 0.3; // Убедимся, что громкость 30% при старте
+
+// Основная функция запуска сайта (showCard из прошлых этапов)
+function showCard() {
+    startScreen.style.opacity = '0';
+    startScreen.style.visibility = 'hidden';
+
+    glassCard.classList.remove('hidden');
+    glassCard.classList.add('visible');
+
+    bgVisual.style.filter = 'brightness(0.3) blur(8px)';
+
+    // Запускаем музыку при входе
+    playMusic();
+}
+
+// Функции Play/Pause
+function playMusic() {
+    music.play();
+    playPauseBtn.classList.replace('fa-play', 'fa-pause');
+}
+
+function pauseMusic() {
+    music.pause();
+    playPauseBtn.classList.replace('fa-pause', 'fa-play');
+}
+
 function togglePlay() {
     if (music.paused) {
-        music.play();
-        playPauseBtn.classList.replace('fa-play', 'fa-pause');
+        playMusic();
     } else {
-        music.pause();
-        playPauseBtn.classList.replace('fa-pause', 'fa-play');
+        pauseMusic();
     }
 }
 
-// Прогресс бар
+// Прогресс бар и время
 music.addEventListener('timeupdate', () => {
     const progress = (music.currentTime / music.duration) * 100;
     progressBar.value = progress || 0;
+    
+    // Обновляем таймеры
     currentTimeEl.textContent = formatTime(music.currentTime);
     if (music.duration) durationEl.textContent = formatTime(music.duration);
 });
 
+// Перемотка трека
 progressBar.addEventListener('input', () => {
     music.currentTime = (progressBar.value * music.duration) / 100;
 });
 
-// НОВАЯ: Регулировка громкости
+// Регулировка громкости (обновленная)
 volumeBar.addEventListener('input', () => {
     music.volume = volumeBar.value / 100;
+    const volIcon = document.querySelector('.volume-controls-advanced i');
     
-    // Меняем иконку в зависимости от громкости (опционально)
-    const volIcon = document.querySelector('.volume-controls i');
     if (music.volume === 0) {
-        volIcon.classList.replace('fa-volume-high', 'fa-volume-mute');
+        volIcon.classList.remove('fa-volume-low');
+        volIcon.classList.add('fa-volume-mute');
+        volIcon.style.color = '#ff3333';
     } else {
-        volIcon.classList.replace('fa-volume-mute', 'fa-volume-high');
+        volIcon.classList.add('fa-volume-low');
+        volIcon.classList.remove('fa-volume-mute');
+        volIcon.style.color = '#555';
     }
 });
 
-// Форматирование времени
+// Форматирование времени (стандартное)
 function formatTime(time) {
     let min = Math.floor(time / 60);
     let sec = Math.floor(time % 60);
     return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 }
+
+// Базовая реакция для кнопок (для эстетики)
+prevBtn.addEventListener('click', () => { music.currentTime = 0; }); // Назад - сброс трека
+nextBtn.addEventListener('click', () => { alert('No next track yet'); }); // Вперед - алерт
+
 // --- ЭФФЕКТ ИНТЕРАКТИВНОГО 3D НАКЛОНА ---
 
 const card = document.querySelector('.glass-card');
