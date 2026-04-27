@@ -1,35 +1,35 @@
-// 1. ОБЪЯВЛЕНИЕ ВСЕХ ПЕРЕМЕННЫХ (Один раз!)
-const music = document.getElementById('bg-music');
-const playPauseBtn = document.getElementById('play-pause-btn');
-const progressBar = document.getElementById('progress-bar');
-const currentTimeEl = document.getElementById('current-time');
-const durationEl = document.getElementById('duration');
-const volumeBar = document.getElementById('volume-bar');
-
+// 1. ПРАВИЛЬНОЕ ОБЪЯВЛЕНИЕ ПЕРЕМЕННЫХ
 const startScreen = document.getElementById('start-screen');
-const glassCard = document.querySelector('.glass-card'); // Используем класс
+const glassCard = document.querySelector('.glass-card'); // Находим по классу
 const bgVisual = document.getElementById('bg-visual');
+const music = document.getElementById('bg-music');
 
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-
-// Настройка звука при загрузке
-music.volume = 0.3;
-
-// 2. ФУНКЦИЯ ЗАПУСКА (Клик по стартовому экрану)
+// 2. ИСПРАВЛЕННАЯ ФУНКЦИЯ ЗАПУСКА
 function showCard() {
+    // Прячем стартовый экран
     startScreen.style.opacity = '0';
-    startScreen.style.visibility = 'hidden';
+    startScreen.style.transition = 'opacity 0.8s ease';
+    
+    setTimeout(() => {
+        startScreen.style.visibility = 'hidden';
+    }, 800);
 
-    glassCard.classList.remove('hidden');
-    glassCard.classList.add('visible');
+    // Показываем карточку
+    if (glassCard) {
+        glassCard.classList.remove('hidden');
+        glassCard.classList.add('visible');
+    }
 
     // Эффект для фона
     if (bgVisual) {
-        bgVisual.style.filter = 'brightness(0.3) blur(8px)';
+        bgVisual.style.filter = 'brightness(0.4) blur(10px)';
     }
 
-    playMusic();
+    // Запуск музыки
+    if (music) {
+        music.volume = 0.3;
+        music.play();
+    }
 }
 
 // 3. ЛОГИКА ПЛЕЕРА
