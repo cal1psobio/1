@@ -12,21 +12,14 @@ const bgVisual = document.getElementById('bg-visual');
 
 // Функция перехода от надписи к панели
 function showCard() {
-    // 1. Скрываем стартовый экран
     startScreen.style.opacity = '0';
     startScreen.style.visibility = 'hidden';
 
-    // 2. Показываем карточку (добавляем CSS класс)
+    // Добавляем класс visible
     glassCard.classList.remove('hidden');
-    glassCard.classList.add('visible');
+    glassCard.classList.add('visible'); 
 
-    // 3. Усиливаем размытие фона (опционально, для акцента на карте)
-    bgVisual.style.filter = 'brightness(0.3) blur(8px)';
-
-    // 4. Запускаем музыку (начальная громкость 30%)
-    music.volume = 0.3;
     music.play();
-    playPauseBtn.classList.replace('fa-play', 'fa-pause');
 }
 
 // Плеер (старая логика Play/Pause)
