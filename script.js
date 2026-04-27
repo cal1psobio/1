@@ -9,17 +9,14 @@ const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const volumeBar = document.getElementById('volume-bar');
 
-// Инициализация
 if (music) music.volume = 0.3;
 
 function showCard() {
     startScreen.style.opacity = '0';
     setTimeout(() => { startScreen.style.visibility = 'hidden'; }, 800);
-
     glassCard.classList.remove('hidden');
     glassCard.classList.add('visible');
-
-    if (bgVisual) bgVisual.style.filter = 'brightness(0.3) blur(8px)';
+    if (bgVisual) bgVisual.style.filter = 'brightness(0.3) blur(10px)';
     if (music) music.play();
 }
 
@@ -65,7 +62,6 @@ function formatTime(time) {
     return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 }
 
-// 3D Наклон
 const motion = 8;
 glassCard.addEventListener('mousemove', (e) => {
     if (glassCard.classList.contains('hidden')) return;
