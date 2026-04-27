@@ -177,28 +177,30 @@ body {
 }
 .widget:hover .join-btn { background: white; color: black; }
 /* МИНИМАЛИСТИЧНЫЙ ПЛЕЕР В ОДНУ СТРОКУ */
-.player-mini {
-    padding: 12px 18px !important;
-    min-height: 50px;
+.player-mini-line {
+    padding: 12px 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 45px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-.player-row {
+.player-content-wrapper {
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 12px;
+    gap: 10px;
 }
 
-.player-row span {
+.player-content-wrapper span {
     font-size: 10px;
     color: #666;
-    font-family: monospace;
-    min-width: 35px;
+    font-family: 'Courier New', monospace;
+    min-width: 32px;
 }
 
-/* Контейнер для полоски прогресса */
-.progress-wrapper {
-    flex-grow: 1;
+.progress-bar-container {
+    flex: 1; /* Занимает всё свободное место в центре */
     display: flex;
     align-items: center;
 }
@@ -207,43 +209,38 @@ body {
     width: 100%;
     height: 2px;
     accent-color: #fff;
-    background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
+    background: rgba(255,255,255,0.1);
 }
 
-/* Блок кнопок справа */
-.player-actions {
+.player-controls-right {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+    margin-left: 5px;
 }
 
 #play-pause-btn {
     font-size: 14px;
     color: #fff;
     cursor: pointer;
-    transition: 0.2s;
+    width: 15px; /* Фиксируем ширину, чтобы не прыгало при смене иконок */
 }
 
-/* Минималистичная громкость */
-.volume-minimal {
+.mini-volume-block {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+}
+
+.mini-volume-block i {
+    font-size: 11px;
     color: #555;
 }
 
-.volume-minimal i {
-    font-size: 12px;
-}
-
 #volume-bar {
-    width: 40px; /* Очень короткая полоска */
+    width: 45px;
     height: 2px;
     accent-color: #888;
     cursor: pointer;
-}
-
-#volume-bar:hover {
-    accent-color: #fff;
 }
