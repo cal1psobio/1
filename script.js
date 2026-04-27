@@ -69,16 +69,16 @@ if (progressBar) {
 
 // Громкость
 if (volumeBar) {
-    volumeBar.addEventListener('input', () => {
-        music.volume = volumeBar.value / 100;
-        const volIcon = document.querySelector('.volume-controls-advanced i');
-        if (volIcon) {
-            if (music.volume === 0) {
-                volIcon.className = 'fa-solid fa-volume-mute';
-                volIcon.style.color = '#ff3333';
-            } else {
-                volIcon.className = 'fa-solid fa-volume-low';
-                volIcon.style.color = '#555';
+   volumeBar.addEventListener('input', () => {
+    music.volume = volumeBar.value / 100;
+    const volIcon = document.querySelector('.volume-minimal i');
+    
+    if (music.volume === 0) {
+        volIcon.className = 'fa-solid fa-volume-mute';
+        volIcon.style.color = '#ff3333';
+    } else {
+        volIcon.className = 'fa-solid fa-volume-low';
+        volIcon.style.color = '#555';
             }
         }
     });
