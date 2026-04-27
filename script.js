@@ -1,5 +1,5 @@
 const startScreen = document.getElementById('start-screen');
-const glassCard = document.querySelector('.box-container'); 
+const glassCard = document.querySelector('.box-container');
 const music = document.getElementById('bg-music');
 const volumeBar = document.getElementById('volume-bar');
 
@@ -31,10 +31,5 @@ glassCard.addEventListener('mouseenter', () => {
 if (volumeBar) {
     volumeBar.addEventListener('input', () => {
         music.volume = volumeBar.value / 100;
-        const volIcon = document.querySelector('.mini-volume-block i');
-        if (volIcon) {
-            volIcon.style.color = music.volume === 0 ? '#ff3333' : '#fff';
-            volIcon.className = music.volume === 0 ? 'fa-solid fa-volume-mute' : 'fa-solid fa-volume-low';
-        }
     });
 }
