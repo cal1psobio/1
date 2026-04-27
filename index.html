@@ -1,50 +1,74 @@
-<div id="start-screen" onclick="showCard()">
-    <p>BIO</p>
-</div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>c4l1pso | Bio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<div class="box-container hidden">
-    <div class="glass-card" id="content">
-        <div class="top-bar">
-            <div class="stat-badge"><i class="fa-regular fa-eye"></i> 132</div>
-            <div class="stat-badge"># c4l1pso</div>
-        </div>
+    <img src="background.gif" id="bg-visual" alt="background">
 
-        <div class="profile-header">
-            <h1 class="main-nick">c4l1pso<span class="red-dot">.</span></h1>
-            <div class="location"><i class="fa-solid fa-location-dot"></i> UA.KIEV</div>
-            <div class="social-icons">
-                <a href="https://t.me/cal1pso_off" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-                <a href="https://discord.com/users/721690829923811399" target="_blank"><i class="fa-brands fa-discord"></i></a>
+    <div id="start-screen" onclick="showCard()">
+        <p>BIO</p>
+    </div>
+
+    <div class="box-container hidden">
+        <div class="glass-card" id="content">
+            
+            <div class="top-bar">
+                <div class="stat-badge"><i class="fa-regular fa-eye"></i> 132</div>
+                <div class="stat-badge"># c4l1pso</div>
             </div>
-        </div>
 
-        <div class="widget">
-            <div class="widget-info">
-                <img src="avatar.jpg" alt="profile" class="widget-avatar">
-                <div class="widget-text">
-                    <div class="widget-title">†cal1pso†</div>
-                    <div class="widget-subtitle">3070 owner | Top 1 EU player</div>
+            <div class="profile-header">
+                <h1 class="main-nick">c4l1pso<span class="red-dot">.</span></h1>
+                <div class="location"><i class="fa-solid fa-location-dot"></i> UA.KIEV</div>
+                <div class="social-icons">
+                    <a href="https://t.me/cal1pso_off" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://discord.com/users/721690829923811399" target="_blank"><i class="fa-brands fa-discord"></i></a>
                 </div>
             </div>
-            <div class="widget-badge"><i class="fa-solid fa-trophy"></i> 3070</div>
-        </div>
 
-        <div class="widget player-mini-line">
-            <div class="player-content-wrapper">
-                <div class="track-info-mini"><span class="track-name">c4l1pso vibe</span></div>
-                <span id="current-time">00:00</span>
-                <div class="progress-bar-container">
-                    <input type="range" id="progress-bar" value="0" max="100">
+            <div class="widget">
+                <div class="widget-info">
+                    <img src="avatar.jpg" alt="profile" class="widget-avatar">
+                    <div class="widget-text">
+                        <div class="widget-title">†cal1pso†</div>
+                        <div class="widget-subtitle">3070 owner | Top 1 EU player</div>
+                    </div>
                 </div>
-                <span id="duration">00:00</span>
-                <div class="player-controls-right">
-                    <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()"></i>
-                    <div class="mini-volume-block">
-                        <i class="fa-solid fa-volume-low"></i>
-                        <input type="range" id="volume-bar" value="30" max="100">
+                <div class="widget-badge"><i class="fa-solid fa-trophy"></i> 3070</div>
+            </div>
+
+            <div class="widget player-mini-line">
+                <div class="player-content-wrapper">
+                    <div class="track-info-mini"><span class="track-name">c4l1pso vibe</span></div>
+                    <span id="current-time">00:00</span>
+                    <div class="progress-bar-container">
+                        <input type="range" id="progress-bar" value="0" max="100">
+                    </div>
+                    <span id="duration">00:00</span>
+                    <div class="player-controls-right">
+                        <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()"></i>
+                        <div class="mini-volume-block">
+                            <i class="fa-solid fa-volume-low"></i>
+                            <input type="range" id="volume-bar" value="30" max="100">
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>
+
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
