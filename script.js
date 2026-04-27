@@ -95,33 +95,39 @@ if (prevBtn) prevBtn.addEventListener('click', () => { music.currentTime = 0; })
 if (nextBtn) nextBtn.addEventListener('click', () => { console.log('Next track clicked'); });
 
 
-// 4. ЭФФЕКТ ИНТЕРАКТИВНОГО 3D НАКЛОНА
-const motionQuantity = 8; // Твой желаемый мягкий угол
+// --- ЭФФЕКТ ИНТЕРАКТИВНОГО 3D НАКЛОНА (FIXED) ---
+const motionQuantity = 8; 
 
-document.addEventListener('mousemove', (e) => {
-    if (!glassCard || glassCard.classList.contains('hidden')) return;
+// Вешаем событие строго НА КАРТОЧКУ, а не на документ
+glassCard.addEventListener('mousemove', (e) => {
+    // Если карточка еще скрыта (начальный экран), ничего не делаем
+    if (glassCard.classList.contains('hidden')) return;
 
     const cardRect = glassCard.getBoundingClientRect();
+    
+    // Находим центр карточки
     const centerX = cardRect.left + cardRect.width / 2;
     const centerY = cardRect.top + cardRect.height / 2;
     
+    // Положение мышки относительно центра
     const mouseX = e.clientX - centerX;
     const mouseY = e.clientY - centerY;
     
+    // Рассчитываем углы
     const rotateX = (+1) * (mouseY / (cardRect.height / 2)) * motionQuantity;
     const rotateY = (-1) * (mouseX / (cardRect.width / 2)) * motionQuantity;
     
+    // Применяем наклон
     glassCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
 });
 
-// Возврат в центр
-if (glassCard) {
-    glassCard.addEventListener('mouseleave', () => {
-        glassCard.style.transition = 'transform 0.5s ease-out';
-        glassCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
-    });
+// Возвращаем в исходное положение, когда мышка ВЫХОДИТ за пределы карточки
+glassCard.addEventListener('mouseleave', () => {
+    glassCard.style.transition = 'transform 0.5s ease-out';
+    glassCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
+});
 
-    glassCard.addEventListener('mouseenter', () => {
-        glassCard.style.transition = 'transform 0.1s ease-out';
-    });
-}
+// Убираем задержку transition, когда мышка заходит обратно, чтобы наклон был мгновенным
+glassCard.addEventListener('mouseenter', () => {
+    glassCard.style.transition = 'transform 0.1s ease-out';
+});
