@@ -37,56 +37,49 @@ body {
 
 /* Стеклянная карточка (с НОВЫМИ 3D стилями) */
 .glass-card {
-    /* 1. ПРОЗРАЧНОСТЬ И СТЕКЛО */
-    background: rgba(255, 255, 255, 0.02); /* Максимально прозрачно */
-    border: 1px solid rgba(255, 255, 255, 0.08); 
-    backdrop-filter: blur(10px); /* Четкое размытие без "мыла" */
-    -webkit-backdrop-filter: blur(10px);
+    /* 1. ПРОЗРАЧНОСТЬ */
+    background: rgba(255, 255, 255, 0.01) !important; /* Почти невидимый фон */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+    backdrop-filter: blur(8px) !important; /* Уменьшил блюр для прозрачности */
+    -webkit-backdrop-filter: blur(8px) !important;
 
-    /* 2. РАЗМЕРЫ И ЦЕНТРИРОВАНИЕ */
+    /* 2. ГЕОМЕТРИЯ */
     width: 90%; 
     max-width: 420px;
     border-radius: 24px; 
     padding: 25px;
     position: relative; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     display: flex; 
     flex-direction: column; 
     align-items: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 
-    /* 3. ВОЗВРАЩАЕМ 3D И УГОЛ */
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
-    /* Начальный угол, как ты хотел */
-    transform: rotateX(10deg) rotateY(-15deg) translateZ(0); 
+    /* 3. 3D И УГОЛ (ОБЪЕДИНЕНО) */
+    transform-style: preserve-3d !important;
+    /* Здесь сразу задаем и наклон, и состояние скрытости */
+    transform: perspective(1000px) rotateX(10deg) rotateY(-15deg) translateY(0px);
     
-    /* Плавность всех переходов */
     transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                opacity 0.8s ease, 
-                filter 0.8s ease;
+                opacity 0.8s ease !important;
 }
 
-/* 4. ВОЗВРАЩАЕМ АНИМАЦИЮ ПОЯВЛЕНИЯ */
+/* Состояние когда скрыта */
 .glass-card.hidden {
-    opacity: 0;
-    visibility: hidden;
-    /* Уводим вниз и под углом при скрытии */
-    transform: rotateX(10deg) rotateY(-15deg) translateY(40px); 
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: perspective(1000px) rotateX(10deg) rotateY(-15deg) translateY(40px) !important;
 }
 
+/* Состояние когда видна */
 .glass-card.visible {
-    opacity: 1;
-    visibility: visible;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
-/* 5. ЭФФЕКТ ПРИ НАВЕДЕНИИ (выравнивание) */
+/* ЭФФЕКТ ПРИ НАВЕДЕНИИ */
 .glass-card:hover {
-    /* Выравниваем и чуть увеличиваем */
-    transform: rotateX(0deg) rotateY(0deg) scale(1.02) translateZ(0);
-
-/* АНИМАЦИЯ ПРИ НАВЕДЕНИИ: Выравнивание и 3D поворот */
-.glass-card:hover {
-    transform: rotateX(0deg) rotateY(0deg) scale(1.02); /* Выравнивается и чуть увеличивается */
+    /* Выравниваем в 0 и чуть увеличиваем */
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02) !important;
 }
 
 /* Остальные стили из предыдущего ответа (без изменений) */
