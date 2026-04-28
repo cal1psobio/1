@@ -34,6 +34,60 @@ body {
 @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
 /* ══════════════════════════════════
+   CARDS CONTAINER & SHELLS
+   ══════════════════════════════════ */
+.cards-container {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: 650px;
+    overflow: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.cards-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.cards-container.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.card-shell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.6s cubic-bezier(.23,1,.32,1), opacity 0.6s ease, filter 0.6s ease;
+}
+.main-shell {
+    z-index: 2;
+    transform: translateY(0);
+}
+.stats-shell {
+    opacity: 0.7;
+    transform: translateY(100%);
+    z-index: 1;
+    filter: brightness(0.92) saturate(0.9);
+}
+.cards-container.show-stats .main-shell {
+    transform: translateY(-100%);
+    z-index: 1;
+    opacity: 0.7;
+}
+.cards-container.show-stats .stats-shell {
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 2;
+    filter: brightness(1) saturate(1);
+}
+
+/* ══════════════════════════════════
    GLASS CARD
    ══════════════════════════════════ */
 .glass-card {
@@ -52,8 +106,6 @@ body {
         0 0 0 1px rgba(255, 255, 255, 0.06),
         0 0 20px 4px rgba(255, 255, 255, 0.04),
         0 0 60px 10px rgba(255, 255, 255, 0.015),
-        /* Глибока тінь */
-        0 25px 70px rgba(0, 0, 0, 0.8),
         /* Внутрішній відблиск зверху */
         inset 0 1px 0 rgba(255, 255, 255, 0.12),
         /* Внутрішнє затемнення знизу */
@@ -71,6 +123,10 @@ body {
     transform: rotateX(0deg) rotateY(0deg);
     transition: transform 0.1s ease-out,
                 opacity 0.8s ease, visibility 0.8s, filter 0.8s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 /* ── ЛІВА ГРАНЬ СКЛА ── */
@@ -172,6 +228,14 @@ body {
     filter: blur(0);
 }
 
+/* ── FIX: Запобігання розмиттю тексту при 3D-трансформації ── */
+/* Цей трюк змушує браузер рендерити текст на окремому шарі, зберігаючи чіткість */
+.profile-header,
+.widget,
+.stats-toggle-btn {
+    transform: translateZ(0);
+}
+
 /* ── Top bar ── */
 .top-bar { position: absolute; top: 18px; right: 20px; display: flex; gap: 8px; }
 .stat-badge {
@@ -181,13 +245,22 @@ body {
 }
 
 /* ── Profile ── */
-.profile-header { text-align: center; margin-top: 30px; margin-bottom: 25px; }
-.main-nick { font-size: 32px; font-weight: 600; letter-spacing: 1px; }
+.profile-header { text-align: center; margin-top: 30px; margin-bottom: 25px; -webkit-font-smoothing: antialiased; }
+.main-nick { font-size: 32px; font-weight: 600; letter-spacing: 1px; -webkit-font-smoothing: antialiased; }
 .red-dot { color: #ff3333; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
 .location { font-size: 12px; color: #777; margin: 10px 0 20px; }
 .social-icons { display: flex; gap: 20px; justify-content: center; }
 .social-icons a { color: white; font-size: 22px; text-decoration: none; opacity: 0.6; transition: 0.3s; }
 .social-icons a:hover { opacity: 1; transform: scale(1.1); }
+
+/* ── Custom Icons (Valorant Rank) ── */
+.val-rank-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: -3px;
+    margin-right: 4px;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+}
 
 /* ── Widgets ── */
 .widget {
@@ -219,7 +292,7 @@ body {
 .widget-info { display: flex; align-items: center; gap: 14px; }
 .widget-avatar { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
 .widget-avatar.circle { border-radius: 50%; }
-.widget-title { font-size: 15px; font-weight: 500; }
+.widget-title { font-size: 15px; font-weight: 500; -webkit-font-smoothing: antialiased; }
 .widget-subtitle { font-size: 12px; color: #888; margin-top: 4px; }
 
 .widget-badge {
@@ -266,34 +339,288 @@ body {
 }
 
 /* ── Player ── */
-.player-widget { padding: 12px 18px; flex-direction: row; align-items: center; gap: 0; }
-.player-info { display: flex; align-items: center; gap: 10px; width: 100%; }
+.player-widget { 
+    padding: 12px 14px; 
+    flex-direction: row; 
+    align-items: center; 
+    gap: 8px;
+    width: 100%;
+}
+.player-info { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    width: 100%;
+}
 
 #play-pause-btn {
-    width: 32px; height: 32px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px; color: white;
+    font-size: 11px; color: white;
     cursor: pointer; transition: 0.25s; flex-shrink: 0;
+    -webkit-font-smoothing: antialiased;
 }
 #play-pause-btn:hover {
-    background: rgba(255,255,255,0.2);
-    box-shadow: 0 0 10px rgba(255,255,255,0.15);
-    transform: scale(1.08);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 8px rgba(255,255,255,0.2);
+    transform: scale(1.05);
 }
 
 .player-controls {
     display: flex; align-items: center;
-    gap: 8px; flex: 1;
-    font-size: 10px; color: #555; margin: 0;
+    gap: 6px; flex: 1;
+    font-size: 9px; color: #666; margin: 0;
 }
-#progress-bar { flex-grow: 1; height: 3px; accent-color: white; cursor: pointer; }
+#progress-bar { 
+    flex-grow: 1; height: 2px; cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    min-width: 40px;
+}
+#progress-bar::-webkit-slider-track {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 1px;
+    height: 2px;
+}
+#progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+}
+#progress-bar::-moz-range-track {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 1px;
+    height: 2px;
+    border: none;
+}
+#progress-bar::-moz-range-thumb {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+}
 
 .volume-controls {
     display: flex; align-items: center;
-    gap: 6px; font-size: 10px; color: #555; flex-shrink: 0;
+    gap: 4px; font-size: 9px; color: #666; flex-shrink: 0;
 }
-#volume-bar { width: 50px; height: 2px; accent-color: #888; cursor: pointer; opacity: 0.6; transition: 0.3s; }
-#volume-bar:hover { opacity: 1; accent-color: white; }
+.volume-controls i {
+    font-size: 10px;
+}
+#volume-bar { 
+    width: 35px; height: 2px; cursor: pointer; opacity: 0.7; transition: 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+}
+#volume-bar:hover { opacity: 1; }
+#volume-bar::-webkit-slider-track {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 1px;
+    height: 2px;
+}
+#volume-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+}
+#volume-bar::-moz-range-track {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 1px;
+    height: 2px;
+    border: none;
+}
+#volume-bar::-moz-range-thumb {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* ── Background filters ── */
+#bg-visual.card-open {
+    filter: brightness(0.3) blur(8px);
+}
+#bg-visual.stats-active {
+    filter: brightness(0.2) saturate(1.6) hue-rotate(70deg) blur(8px);
+}
+
+/* ── Stats Toggle Button ── */
+.stats-toggle-btn {
+    margin-top: 16px;
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+.stats-toggle-btn:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* ── Stats Widget ── */
+.stats-widget {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    align-items: stretch;
+}
+.stats-widget .widget-text {
+    flex: 1;
+    padding-right: 16px;
+}
+.top-percentile {
+    color: #aaa;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+.top-percentile i {
+    color: #f0b429;
+    margin-right: 6px;
+}
+.stats-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 0;
+}
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px;
+}
+.stat-item strong {
+    color: white;
+}
+
+/* ── Player Tags ── */
+.player-tags {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0.8;
+}
+.tag {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 11px;
+    color: #ddd;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.tag i {
+    color: #ff3333;
+}
+.tag:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    /* Подсветка с градиентным эффектом (смесь красного и фиолетового) */
+    box-shadow: -5px 0 15px rgba(169, 112, 255, 0.25), 5px 0 15px rgba(255, 51, 51, 0.25);
+    transform: translateY(-2px);
+    color: #fff;
+}
+
+/* ── Адаптивність для малих екранів ── */
+@media (max-width: 400px) {
+    .glass-card {
+        padding: 20px 15px;
+    }
+    .profile-header { margin-top: 25px; margin-bottom: 20px; }
+    .main-nick { font-size: 28px; }
+    .social-icons { gap: 16px; }
+}
+
+/* ── Динамічна обводка для другої карточки ── */
+.stats-card {
+    /* Кольори обводки (зміни їх під кольори свого нового фону) */
+    --border-color-1: #a970ff; /* Фіолетовий */
+    --border-color-2: #ff3333; /* Червоний */
+}
+
+.dynamic-border {
+    position: absolute;
+    inset: 0; /* Розтягуємо на всю площу карточки */
+    border-radius: 24px;
+    padding: 2px; /* Товщина лінії обводки */
+    background: linear-gradient(
+        60deg,
+        var(--border-color-1) 0%,
+        var(--border-color-2) 50%,
+        var(--border-color-1) 100%
+    );
+    background-size: 300% 300%;
+    animation: borderAnimation 8s ease-in-out infinite alternate;
+    
+    /* Трюк з маскою: вирізаємо серединку, щоб залишилась тільки рамка */
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 20;
+    opacity: 0.45; /* Зробили світіння більш тьмяним та м'яким */
+}
+
+@keyframes borderAnimation {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* ── Історія останніх матчів ── */
+.recent-matches {
+    display: flex;
+    gap: 4px;
+}
+
+.match-result {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.match-result.win { background: rgba(50, 200, 100, 0.3); border: 1px solid rgba(50, 200, 100, 0.4); }
+.match-result.loss { background: rgba(255, 80, 80, 0.3); border: 1px solid rgba(255, 80, 80, 0.4); }
