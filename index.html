@@ -12,71 +12,131 @@
 
     <img src="background.gif" id="bg-visual" alt="background">
 
-    <div id="start-screen" onclick="showCard()">
+    <div id="start-screen" onclick="showCard()" role="button" tabindex="0">
         <p>BIO</p>
     </div>
 
-    <div class="glass-card hidden" id="content">
-        <div class="glass-card-bottom-edge" id="bottom-edge"></div>
-        <div class="glass-card-top-shine"></div>
+    <div id="content" class="cards-container hidden">
+        <div class="card-shell main-shell">
+            <div class="glass-card main-card">
+                <div class="glass-card-bottom-edge" id="bottom-edge"></div>
+                <div class="glass-card-top-shine"></div>
 
-        <div class="top-bar">
-            <div class="stat-badge"><i class="fa-regular fa-eye"></i> 132</div>
-            <div class="stat-badge"># c4l1pso</div>
-        </div>
-
-        <div class="profile-header">
-            <h1 class="main-nick">c4l1pso<span class="red-dot">.</span></h1>
-            <div class="location"><i class="fa-solid fa-location-dot"></i> UA.KIEV</div>
-            <div class="social-icons">
-                <a href="https://t.me/cal1pso_off" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-                <a href="https://discord.com/users/721690829923811399" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            </div>
-        </div>
-
-        <div class="widget profile-widget">
-            <div class="widget-info">
-                <img src="avatar.jpg" alt="profile" class="widget-avatar">
-                <div class="widget-text">
-                    <div class="widget-title">†cal1pso†</div>
-                    <div class="widget-subtitle">3070 owner | Top 1 EU player </div>
+                <div class="top-bar">
+                    <div class="stat-badge"><i class="fa-regular fa-eye"></i> 132</div>
+                    <div class="stat-badge"># c4l1pso</div>
                 </div>
-            </div>
-            <div class="widget-badge"><i class="fa-solid fa-trophy"></i> 3070</div>
-        </div>
 
-        <a href="https://www.twitch.tv/c4l1pso_" target="_blank" class="widget link-widget">
-            <div class="widget-info">
-                <img src="avatar_twitch.jpg" alt="twitch" class="widget-avatar circle">
-                <div class="widget-text">
-                    <div class="widget-title">tw:c4l1pso_ <i class="fa-brands fa-twitch twitch-icon"></i></div>
-                    <div class="widget-subtitle">
-                        <span class="status-online"></span> 131 subscribers
+                <div class="profile-header">
+                    <h1 class="main-nick">c4l1pso<span class="red-dot">.</span></h1>
+                    <div class="location"><i class="fa-solid fa-location-dot"></i> UA.KIEV</div>
+                    <div class="social-icons">
+                        <a href="https://t.me/cal1pso_off" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://discord.com/users/721690829923811399" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i></a>
                     </div>
                 </div>
-            </div>
-            <button class="join-btn">Follow</button>
-        </a>
 
-        <div class="widget player-widget">
-            <div class="player-info">
-                <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()"></i>
-                <div class="player-controls">
-                    <span id="current-time">00:00</span>
-                    <input type="range" id="progress-bar" value="0" max="100">
-                    <span id="duration">00:00</span>
+                <div class="widget profile-widget">
+                    <div class="widget-info">
+                        <img src="avatar.jpg" alt="profile" class="widget-avatar">
+                        <div class="widget-text">
+                            <div class="widget-title">†cal1pso†</div>
+                            <div class="widget-subtitle">3070 owner | Top 1 EU player </div>
+                        </div>
+                    </div>
+                    <div class="widget-badge"><i class="fa-solid fa-trophy"></i> 3070</div>
                 </div>
-                <div class="volume-controls">
-                    <i class="fa-solid fa-volume-high"></i>
-                    <input type="range" id="volume-bar" value="30" max="100">
+
+                <a href="https://www.twitch.tv/c4l1pso_" target="_blank" rel="noopener noreferrer" class="widget link-widget">
+                    <div class="widget-info">
+                        <img src="avatar_twitch.jpg" alt="twitch" class="widget-avatar circle">
+                        <div class="widget-text">
+                            <div class="widget-title">tw:c4l1pso_ <i class="fa-brands fa-twitch twitch-icon"></i></div>
+                            <div class="widget-subtitle">
+                                <span class="status-online"></span> 131 subscribers
+                            </div>
+                        </div>
+                    </div>
+                    <button class="join-btn">Follow</button>
+                </a>
+
+                <div class="widget player-widget">
+                    <div class="player-info">
+                        <i class="fa-solid fa-play" id="play-pause-btn" onclick="togglePlay()"></i>
+                        <div class="player-controls">
+                            <span id="current-time">00:00</span>
+                            <input type="range" id="progress-bar" value="0" max="100">
+                            <span id="duration">00:00</span>
+                        </div>
+                        <div class="volume-controls">
+                            <i class="fa-solid fa-volume-high"></i>
+                            <input type="range" id="volume-bar" value="30" max="100">
+                        </div>
+                    </div>
                 </div>
+
+                <button id="show-stats-btn" class="stats-toggle-btn">Открыть статистику</button>
             </div>
         </div>
 
+        <div class="card-shell stats-shell">
+            <div class="glass-card stats-card">
+                <div class="dynamic-border"></div>
+                <div class="glass-card-bottom-edge"></div>
+                <div class="glass-card-top-shine"></div>
+
+                <div class="top-bar">
+                    <div class="stat-badge"><i class="fa-solid fa-chart-line"></i> 96%</div>
+                    <div class="stat-badge">Stats</div>
+                </div>
+
+                <div class="profile-header">
+                    <h1 class="main-nick">Rank<span class="red-dot">.</span></h1>
+                    <div class="location"><i class="fa-solid fa-user-secret"></i> Reyna</div>
+                </div>
+
+                <div class="widget profile-widget">
+                    <div class="widget-info">
+                        <img src="https://cdn3.emoji.gg/emojis/9768_Radiant_Valorant.png" alt="Radiant" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));">
+                        <div class="widget-text">
+                            <div class="widget-title">1072 RR</div>
+                            <div class="widget-subtitle">LVL 245</div>
+                        </div>
+                    </div>
+                    <div class="recent-matches">
+                        <div class="match-result win">W</div>
+                        <div class="match-result win">W</div>
+                        <div class="match-result loss">L</div>
+                        <div class="match-result win">W</div>
+                        <div class="match-result loss">L</div>
+                    </div>
+                </div>
+
+                <div class="widget stats-widget">
+                    <div class="widget-text">
+                        <div class="widget-title top-percentile">Top 1.2% of players</div>
+                        <div class="stats-list">
+                            <div class="stat-item"><span>Hours</span><strong>4.660</strong></div>
+                            <div class="stat-item"><span>Matches&nbsp;</span><strong>603</strong></div>
+                            <div class="stat-item"><span>HS%</span><strong>57</strong></div>
+                            <div class="stat-item"><span>K/D</span><strong>1.4</strong></div>
+                        </div>
+                    </div>
+                    <div class="player-tags">
+                        <div class="tag"><i class="fa-solid fa-crosshairs"></i> Entry Fragger</div>
+                        <div class="tag"><i class="fa-solid fa-crown"></i> Clutch King</div>
+                        <div class="tag"><i class="fa-solid fa-skull"></i> Headhunter</div>
+                    </div>
+                </div>
+
+                <button id="back-to-main-btn" class="stats-toggle-btn">Назад к профилю</button>
+            </div>
+        </div>
     </div>
 
     <audio id="bg-music" loop>
         <source src="music.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает встроенное аудио.
     </audio>
 
     <script src="script.js"></script>
